@@ -34,9 +34,9 @@ task loadMeta(type: Db2Db, dependsOn: loadData){
 	];        
 }
 
-task setupSearchFunc(type: SqlExecutor, dependsOn: loadData){
+task setupSearchFunc(type: SqlExecutor, dependsOn: loadMeta){
 	database = [dbUriDocker, dbUserDocker, dbPwdDocker]
-    sqlFiles = ['sql_ddl/create_pg_trgm.sql', 'sql_ddl/create_func_tok3.sql']
+    sqlFiles = ['sql_ddl/create_pg_trgm.sql']   //, 'sql_ddl/create_func_tok3.sql'] - SqlExecutor returns error --> exec manual 
 }
 
 
