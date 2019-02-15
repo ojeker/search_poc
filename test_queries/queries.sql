@@ -28,7 +28,7 @@ Datensätze
 
 -- SELECT tok3('richtplan');
 -- SELECT tok3('boden info');
--- SELECT tok3('gemeinde grenz');
+-- SELECT tok2('gemeinde grenz');
 -- SELECT tok3('strasse metrieru');
 
 
