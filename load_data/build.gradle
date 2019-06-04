@@ -5,20 +5,16 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.io.File
 
-defaultTasks 'setupSearchFunc'
-
-def dbUriDocker = dbUriEdit; //Missbrauch der Edit-DB Umgebungsvariable
-def dbUserDocker = 'postgres';
-def dbPwdDocker = 'postgres'; 
+defaultTasks 'loadData'
 
 task createTable(type: SqlExecutor){
-	database = [dbUriDocker, dbUserDocker, dbPwdDocker]
+    database = [dbUriEdit, dbUserEdit, dbPwdEdit]
     sqlFiles = ['sql_ddl/drop_table.sql', 'sql_ddl/create_table.sql']
 }
 
 task loadData(type: Db2Db, dependsOn: createTable){
     sourceDb = [dbUriPub, dbUserPub, dbPwdPub]
-    targetDb = [dbUriDocker, dbUserDocker, dbPwdDocker]
+    targetDb = [dbUriEdit, dbUserEdit, dbPwdEdit]
     transferSets = [
 		new TransferSet('sql_dml/fill_objects.sql', 'public.searchobjects', false),
 		new TransferSet('sql_dml/grundstuecke.sql', 'public.searchobjects', false),
@@ -26,6 +22,7 @@ task loadData(type: Db2Db, dependsOn: createTable){
 	];        
 }
 
+/*
 task loadMeta(type: Db2Db, dependsOn: loadData){
     sourceDb = [dbUriSogis, dbUserSogis, dbPwdSogis]
     targetDb = [dbUriDocker, dbUserDocker, dbPwdDocker]
@@ -38,5 +35,6 @@ task setupSearchFunc(type: SqlExecutor, dependsOn: loadMeta){
 	database = [dbUriDocker, dbUserDocker, dbPwdDocker]
     sqlFiles = ['sql_ddl/create_pg_trgm.sql']   //, 'sql_ddl/create_func_tok3.sql'] - SqlExecutor returns error --> exec manual 
 }
+*/
 
 
